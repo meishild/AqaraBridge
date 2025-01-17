@@ -2,7 +2,11 @@
 import logging
 import time
 
-from homeassistant.config import DATA_CUSTOMIZE
+try:
+    # hass 2024.11
+    from homeassistant.config import DATA_CUSTOMIZE
+except (ModuleNotFoundError, ImportError):
+    from homeassistant.helpers.entity import DATA_CUSTOMIZE
 from homeassistant.helpers.event import async_call_later
 from homeassistant.components.binary_sensor import BinarySensorEntity
 

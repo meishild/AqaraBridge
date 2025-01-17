@@ -1,8 +1,7 @@
-from homeassistant.components.light import *
-from homeassistant.components.cover import *
-from homeassistant.components.climate import *
-from homeassistant.components.remote import *
 from homeassistant.components.binary_sensor import *
+from homeassistant.components.cover import *
+from homeassistant.components.light import *
+from homeassistant.components.sensor import *
 from homeassistant.const import *
 
 # AiotDevice Mapping
@@ -25,8 +24,8 @@ AIOT_DEVICE_MAPPING = [
             "light": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "light",
-                    "supported_features": SUPPORT_BRIGHTNESS | SUPPORT_COLOR,
-                    "color_mode": "hs",
+                    "color_mode": ColorMode.HS,
+                    "supported_color_modes": [ColorMode.BRIGHTNESS, ColorMode.HS],
                 },
                 MK_RESOURCES: {
                     "toggle": ("14.7.111", "_attr_is_on"),
@@ -38,7 +37,7 @@ AIOT_DEVICE_MAPPING = [
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "illuminance",
-                    "device_class": DEVICE_CLASS_ILLUMINANCE,
+                    "device_class": SensorDeviceClass.ILLUMINANCE,
                     "state_class": "measurement",
                     "unit_of_measurement": LIGHT_LUX
                 },
@@ -46,7 +45,7 @@ AIOT_DEVICE_MAPPING = [
             }
         }
     ]
-}, 
+},
 ###########################绿米H1、E1、M2网关####################################
 {
     'lumi.gateway.sacn01': ["Aqara", "Smart Hub H1", "QBCZWG11LM"],
@@ -90,18 +89,18 @@ AIOT_DEVICE_MAPPING = [
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "power",
-                    "device_class": DEVICE_CLASS_POWER,
+                    "device_class": BinarySensorDeviceClass.POWER,
                     "state_class": "measurement",
-                    "unit_of_measurement": POWER_WATT},
+                    "unit_of_measurement": UnitOfPower.WATT},
                 MK_RESOURCES: {"power": ("0.12.85", "_attr_native_value")}
             }
         }, {
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "energy",
-                    "device_class": DEVICE_CLASS_ENERGY,
+                    "device_class": SensorDeviceClass.ENERGY,
                     "state_class": "total_increasing",
-                    "unit_of_measurement": ENERGY_KILO_WATT_HOUR},
+                    "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR},
                 MK_RESOURCES: {"energy": ("0.13.85", "_attr_native_value")},
             }
         }
@@ -167,23 +166,23 @@ AIOT_DEVICE_MAPPING = [
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "power",
-                    "device_class": DEVICE_CLASS_POWER,
+                    "device_class": BinarySensorDeviceClass.POWER,
                     "state_class": "measurement",
-                    "unit_of_measurement": POWER_WATT},
+                    "unit_of_measurement": UnitOfPower.WATT},
                 MK_RESOURCES: {"power": ("0.12.85", "_attr_native_value")}
             }
         }, {
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "energy",
-                    "device_class": DEVICE_CLASS_ENERGY,
+                    "device_class": SensorDeviceClass.ENERGY,
                     "state_class": "total_increasing",
-                    "unit_of_measurement": ENERGY_KILO_WATT_HOUR},
+                    "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR},
                 MK_RESOURCES: {"energy": ("0.13.85", "_attr_native_value")},
             }
         }
     ]
-}, 
+},
 {
     # 墙壁开关（单火线双键版）
     'lumi.ctrl_neutral2.v1': ["Aqara", "Wall Switch (Double Rocker)", "QBKG04LM"],
@@ -243,18 +242,18 @@ AIOT_DEVICE_MAPPING = [
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "power",
-                    "device_class": DEVICE_CLASS_POWER,
+                    "device_class": BinarySensorDeviceClass.POWER,
                     "state_class": "measurement",
-                    "unit_of_measurement": POWER_WATT},
+                    "unit_of_measurement": UnitOfPower.WATT},
                 MK_RESOURCES: {"power": ("0.12.85", "_attr_native_value")}
             }
         }, {
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "energy",
-                    "device_class": DEVICE_CLASS_ENERGY,
+                    "device_class": SensorDeviceClass.ENERGY,
                     "state_class": "total_increasing",
-                    "unit_of_measurement": ENERGY_KILO_WATT_HOUR},
+                    "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR},
                 MK_RESOURCES: {"energy": ("0.13.85", "_attr_native_value")},
             }
         }
@@ -317,18 +316,18 @@ AIOT_DEVICE_MAPPING = [
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "power",
-                    "device_class": DEVICE_CLASS_POWER,
+                    "device_class": BinarySensorDeviceClass.POWER,
                     "state_class": "measurement",
-                    "unit_of_measurement": POWER_WATT},
+                    "unit_of_measurement": UnitOfPower.WATT},
                 MK_RESOURCES: {"power": ("0.12.85", "_attr_native_value")}
             }
         }, {
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "energy",
-                    "device_class": DEVICE_CLASS_ENERGY,
+                    "device_class": SensorDeviceClass.ENERGY,
                     "state_class": "total_increasing",
-                    "unit_of_measurement": ENERGY_KILO_WATT_HOUR},
+                    "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR},
                 MK_RESOURCES: {"energy": ("0.13.85", "_attr_native_value")},
             }
         }
@@ -351,8 +350,8 @@ AIOT_DEVICE_MAPPING = [
             "light": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "light",
-                    "supported_features": SUPPORT_BRIGHTNESS | SUPPORT_COLOR_TEMP,
-                    "color_mode": "xy",  #写hs为rgb模式 xy为色温模式
+                    "color_mode": ColorMode.XY,  # 写hs为rgb模式 xy为色温模式
+                    "supported_color_mode": [ColorMode.BRIGHTNESS, ColorMode.COLOR_TEMP],
                     "min_mireds": 153,
                     "max_mireds": 370
                 },
@@ -375,8 +374,8 @@ AIOT_DEVICE_MAPPING = [
             "light": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "light",
-                    "supported_features": SUPPORT_BRIGHTNESS | SUPPORT_COLOR_TEMP,
-                    "color_mode": "xy",  #hs为RGB，xy为色温模式
+                    "color_mode": ColorMode.XY,  #写hs为rgb模式 xy为色温模式
+                    "supported_color_mode": [ColorMode.BRIGHTNESS, ColorMode.COLOR_TEMP],
                 },
                 MK_RESOURCES: {
                     "toggle": ("4.1.85", "_attr_is_on"),
@@ -397,8 +396,8 @@ AIOT_DEVICE_MAPPING = [
             "light": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "light",
-                    "supported_features": SUPPORT_BRIGHTNESS | SUPPORT_COLOR,
-                    "color_mode": "hs",  #hs为RGB，xy为色温模式
+                    "color_mode": ColorMode.HS,  # 写hs为rgb模式 xy为色温模式
+                    "supported_color_mode": [ColorMode.BRIGHTNESS, ColorMode.HS],
                 },
                 MK_RESOURCES: {
                     "toggle": ("4.1.85", "_attr_is_on"),
@@ -410,7 +409,7 @@ AIOT_DEVICE_MAPPING = [
             }
         }
     ]
-}, 
+},
 
 {
     #Aqara智能灯带驱动模块
@@ -421,8 +420,8 @@ AIOT_DEVICE_MAPPING = [
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "light",
                     # 颜色模式XY转换有问题，无法根据云端值拆分计算
-                    "supported_features": SUPPORT_BRIGHTNESS | SUPPORT_COLOR_TEMP,
-                    "color_mode": "xy",  #hs为RGB，xy为色温模式
+                    "color_mode": ColorMode.XY,  #写hs为rgb模式 xy为色温模式
+                    "supported_color_mode": [ColorMode.BRIGHTNESS, ColorMode.COLOR_TEMP],
                     "min_mireds": 153,
                     "max_mireds": 370
                 },
@@ -438,14 +437,14 @@ AIOT_DEVICE_MAPPING = [
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "energy",
-                    "device_class": DEVICE_CLASS_ENERGY,
+                    "device_class": SensorDeviceClass.ENERGY,
                     "state_class": "total_increasing",
-                    "unit_of_measurement": ENERGY_KILO_WATT_HOUR},
+                    "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR},
                 MK_RESOURCES: {"energy": ("0.13.85", "_attr_native_value")},
             }
         }
     ]
-}, 
+},
 
 {
     #轨道格栅灯 H1（12头）
@@ -456,8 +455,8 @@ AIOT_DEVICE_MAPPING = [
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "light",
                     # 颜色模式XY转换有问题，无法根据云端值拆分计算
-                    "supported_features": SUPPORT_BRIGHTNESS | SUPPORT_COLOR_TEMP,
-                    "color_mode": "xy",  #写hs为rgb模式 xy为色温模式
+                    "color_mode": ColorMode.XY,  #写hs为rgb模式 xy为色温模式
+                    "supported_color_mode": [ColorMode.BRIGHTNESS, ColorMode.COLOR_TEMP],
                     "min_mireds": 153,
                     "max_mireds": 370
                 },
@@ -476,8 +475,6 @@ AIOT_DEVICE_MAPPING = [
     ##################################无线开关##################################
     # 无线开关（贴墙式单键版）
     'lumi.remote.b186acn01': ["Aqara", "Single Wall Button", "WXKG03LM"],
-    # 无线开关T1
-    'lumi.remote.b1acn02': ["Aqara", "Wireless Remote Switch T1 (Single Rocker)", ""],
     # 无线开关
     'lumi.remote.b1acn01': ["Aqara", "Wireless Remote Switch (Single Rocker)", ""],
     # 无线开关（升级版）
@@ -485,15 +482,15 @@ AIOT_DEVICE_MAPPING = [
     # 无线开关H1（贴墙式单键版）
     'lumi.remote.b18ac1': ["Aqara", "Wireless Remote Switch H1 (Single Rocker)", "WXKG14LM"],
     # 无线开关E1（贴墙式单键版）
-    'lumi.remote.acn003': ["Aqara", "Wireless Remote Switch E1 (Single Rocker)", ""],
+    'lumi.remote.b1acn02': ["Aqara", "Wireless Remote Switch E1 (Single Rocker)", "WXKG12LM"],
     # 无线开关E1（贴墙式单键版）
-    'lumi.remote.acn007': ["Aqara", "Wireless Remote Switch E1 (Single Rocker)", "WXKG16LM"],
+    'lumi.remote.acn003': ["Aqara", "Wireless Remote Switch E1 (Single Rocker)", "WXKG16LM"],
     # 无线开关D1（贴墙式单键版）
     'lumi.remote.b186acn02': ["Aqara", "Wireless Remote Switch D1 (Single Rocker)", "WXKG06LM"],
     # 无线开关T1（贴墙式单键版）
     'lumi.remote.b186acn03': ["Aqara", "Wireless Remote Switch T1 (Single Rocker)", ""],
     # 无线开关E1 mini
-    'lumi.remote.acn007': ["Aqara", "Single Wall Button E1", "WXKG16LM"],
+    'lumi.remote.acn007': ["Aqara", "Single Wall Button E1", "WXKG20LM"],
     'params': [
         {
             "button": {
@@ -507,7 +504,7 @@ AIOT_DEVICE_MAPPING = [
             }
         }
     ]
-}, 
+},
 ###无线双键
 {
     # 无线开关（贴墙式双键版）
@@ -625,9 +622,9 @@ AIOT_DEVICE_MAPPING = [
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "temperature",
-                    "device_class": DEVICE_CLASS_TEMPERATURE,
+                    "device_class": SensorDeviceClass.TEMPERATURE,
                     "state_class": "measurement",
-                    "unit_of_measurement": TEMP_CELSIUS
+                    "unit_of_measurement": UnitOfTemperature.CELSIUS
                 },
                 MK_RESOURCES: {"temperature": ("0.1.85", "_attr_native_value")},
             }
@@ -635,7 +632,7 @@ AIOT_DEVICE_MAPPING = [
             "sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "humidity",
-                    "device_class": DEVICE_CLASS_HUMIDITY,
+                    "device_class": SensorDeviceClass.HUMIDITY,
                     "state_class": "measurement",
                     "unit_of_measurement": PERCENTAGE
                 },
@@ -656,7 +653,7 @@ AIOT_DEVICE_MAPPING = [
             "binary_sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "motion",
-                    "device_class": DEVICE_CLASS_MOTION
+                    "device_class": BinarySensorDeviceClass.MOTION
                 },
                 MK_RESOURCES: {
                     "motion": ("3.1.85", "_attr_native_value"),
@@ -676,7 +673,7 @@ AIOT_DEVICE_MAPPING = [
             "binary_sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "motion",
-                    "device_class": DEVICE_CLASS_MOTION
+                    "device_class": BinarySensorDeviceClass.MOTION
                 },
                 MK_RESOURCES: {
                     "motion": ("3.1.85", "_attr_native_value"),
@@ -697,7 +694,7 @@ AIOT_DEVICE_MAPPING = [
             "binary_sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "exist",
-                    "device_class": DEVICE_CLASS_MOTION
+                    "device_class": BinarySensorDeviceClass.MOTION
                 },
                 MK_RESOURCES: {
                     "exist": ("4.1.85", "_attr_native_value"),
@@ -726,7 +723,7 @@ AIOT_DEVICE_MAPPING = [
             "binary_sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "contact",
-                    "device_class": DEVICE_CLASS_DOOR
+                    "device_class": CoverDeviceClass.DOOR
                 },
                 MK_RESOURCES: {
                     "status": ("3.1.85", "_attr_native_value"),
@@ -749,7 +746,7 @@ AIOT_DEVICE_MAPPING = [
             "binary_sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "moisture",
-                    "device_class": DEVICE_CLASS_MOISTURE
+                    "device_class": BinarySensorDeviceClass.MOISTURE
                 },
                 MK_RESOURCES: {
                     "moisture": ("3.1.85", "_attr_is_on"),
@@ -770,7 +767,7 @@ AIOT_DEVICE_MAPPING = [
             "binary_sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "smoke",
-                    "device_class": DEVICE_CLASS_SMOKE
+                    "device_class": BinarySensorDeviceClass.SMOKE
                 },
                 MK_RESOURCES: {
                     "smoke": ("13.1.85", "_attr_is_on")
@@ -788,7 +785,7 @@ AIOT_DEVICE_MAPPING = [
             "binary_sensor": {
                 MK_INIT_PARAMS: {
                     MK_HASS_NAME: "contact",
-                    "device_class": DEVICE_CLASS_DOOR
+                    "device_class": CoverDeviceClass.DOOR
                 },
                 MK_RESOURCES: {
                     "status": ("13.12.85", "_attr_native_value"),

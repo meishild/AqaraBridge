@@ -1,9 +1,7 @@
 import logging
-import voluptuous as vol
 
-import homeassistant.helpers.config_validation as cv
+import voluptuous as vol
 from homeassistant.config_entries import (
-    CONN_CLASS_LOCAL_PUSH,
     ConfigFlow,
     OptionsFlow,
     ConfigEntry
@@ -12,6 +10,7 @@ from homeassistant.core import callback
 
 from . import init_hass_data, data_masking, gen_auth_entry
 from .core.const import *
+
 _LOGGER = logging.getLogger(__name__)
 
 DEVICE_GET_TOKEN_CONFIG = vol.Schema({vol.Required(CONF_FIELD_AUTH_CODE): str})
@@ -37,7 +36,7 @@ class AqaraBridgeFlowHandler(ConfigFlow, domain=DOMAIN):
     @callback
     def async_get_options_flow(config_entry: ConfigEntry):
         """ get option flow """
-        return OptionsFlowHandler(config_entry)
+        return OptionsFlowHandler(config_entry.entry_id)
 
     async def async_step_user(self, user_input=None):
         """Handle a flow initialized by the user."""
@@ -144,9 +143,9 @@ class AqaraBridgeFlowHandler(ConfigFlow, domain=DOMAIN):
 
 
 class OptionsFlowHandler(OptionsFlow):
-    def __init__(self, config_entry):
+    def __init__(self, entry_id):
         """Initialize options flow."""
-        self.config_entry = config_entry
+        self.entry_id = entry_id
         self.account = None
         self.country_code = None
         self.account_type = 0
@@ -155,6 +154,8 @@ class OptionsFlowHandler(OptionsFlow):
     async def async_step_init(self, user_input=None):
         """Configure an aqara device through the Aqara Cloud."""
         errors = {}
+
+        config_entry = self.hass.config_entries.async_get_entry(self.entry_id)
         if isinstance(user_input, dict):
             # 用户输入
             self.account = user_input.get(CONF_FIELD_ACCOUNT)
@@ -177,7 +178,7 @@ class OptionsFlowHandler(OptionsFlow):
                         resp["result"],
                     )
                     self.hass.config_entries.async_update_entry(
-                        self.config_entry, data=auth_entry)
+                        config_entry, data=auth_entry)
                     return self.async_abort(reason="complete")
                 else:
                     errors['base'] = 'refresh_token_error'
@@ -189,8 +190,8 @@ class OptionsFlowHandler(OptionsFlow):
                     errors['base'] = 'auth_code_error'
         else:
             prev_input = {
-                **self.config_entry.data,
-                **self.config_entry.options,
+                **config_entry.data,
+                **config_entry.options,
             }
             config_scheme = vol.Schema(
                 {
@@ -211,6 +212,7 @@ class OptionsFlowHandler(OptionsFlow):
 
     async def async_step_option_get_token(self, user_input=None):
         errors = {}
+        config_entry = self.hass.config_entries.async_get_entry(self.entry_id)
         if user_input and CONF_FIELD_AUTH_CODE in user_input:
             auth_code = user_input.get(CONF_FIELD_AUTH_CODE)
             resp = await self._session.async_get_token(auth_code, self.account, 0)
@@ -221,7 +223,7 @@ class OptionsFlowHandler(OptionsFlow):
                     resp["result"],
                 )
                 self.hass.config_entries.async_update_entry(
-                    self.config_entry, data=auth_entry)
+                    config_entry, data=auth_entry)
                 return self.async_abort(reason="complete")
             else:
                 errors["base"] = "auth_code_error"
