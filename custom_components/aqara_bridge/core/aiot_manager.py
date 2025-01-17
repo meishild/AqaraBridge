@@ -38,7 +38,7 @@ def __init_rocketmq():
 
 try:
     from rocketmq.client import PushConsumer, RecvMessage
-except:
+except (ModuleNotFoundError, ImportError) as e:
     __init_rocketmq()
     from rocketmq.client import PushConsumer, RecvMessage
 
@@ -488,7 +488,7 @@ class AiotManager:
                 self._managed_devices[device.did] = device
                 self._entries_devices[config_entry.entry_id].append(device.did)
             else:
-                _LOGGER.warn(f"Aqara device is not supported. Deivce model is '{device.model}'.")
+                _LOGGER.warn(f"Aqara device is not supported. Device model is '{device.model}'.")
                 continue
 
     async def async_forward_entry_setup(self, config_entry: ConfigEntry):
